@@ -1,3 +1,4 @@
+import os
 from bottle import run,template,get,post,request,route,static_file
 from playlistAPI import YoutubePlaylist
 
@@ -16,5 +17,7 @@ def index():
 def send_css(filename):
     return static_file(filename, root='static/css')
 
-if __name__=='__main__':
-    run(debug=True,  reloader=True)
+if os.environ.get('APP_LOCATION') == 'heroku':
+    run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+else:
+    run(host='localhost', port=8080, debug=True)
