@@ -29,7 +29,7 @@ class YoutubePlaylist:
         totalSeconds= totalSec/playbackSpeed
         minutes,seconds = divmod(totalSeconds,60)
         hours,minutes= divmod(minutes,60)
-        return {playbackSpeed: {'hours' : hours, 'minutes': minutes,'seconds' : seconds}}
+        return {playbackSpeed: f'{hours:.0f}hr {minutes:.0f}min {seconds:.0f}sec'}
 
 
 
@@ -76,10 +76,11 @@ class YoutubePlaylist:
             if not nextPageToken:
                 break
         
-        print(noOfVideos)
-        print(totalLenInSeconds)
-
         playbackSpeeds = [1,1.25,1.5,2]
         lenList= [self.lenInPlaybackSpeed(totalLenInSeconds, i) for i in playbackSpeeds]
-        #print(lenList)
         return {'lenList':lenList , 'noOfVideos':noOfVideos}
+
+if __name__ == '__main__':
+    str= input('Enter the Playlist Url or Playlist Id: ')
+    ytpl= YoutubePlaylist()
+    print(ytpl.calculatePlaylistLength(str))
