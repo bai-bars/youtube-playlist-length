@@ -2,17 +2,11 @@ import re
 import os
 from datetime import timedelta
 from googleapiclient.discovery import build
-#from dotenv import load_dotenv
 
 
-#load_dotenv()
 
 class YoutubePlaylist:
- #   api_key= os.getenv('api_key')
     api_key='AIzaSyCG3OOVFTnQKECkjvFjHL7aqDS8SLsp0Fk'
-
-    def __init__(self):
-        self.youtube= build('youtube', 'v3', developerKey=self.api_key)
 
     def extractIdFromURL(self,playlistId):
         '''If Client puts whole link of The playlist
@@ -38,11 +32,12 @@ class YoutubePlaylist:
         totalLenInSeconds=0
         noOfVideos=0
         nextPageToken=None
+        youtube= build('youtube', 'v3', developerKey=self.api_key)
 
         #One Request for playlist can consume 50 videos maximum,So it requires to loop through
         while True:
             #Request to playlist to grab video Ids
-            playlistRequest = self.youtube.playlistItems().list(
+            playlistRequest = youtube.playlistItems().list(
                     part="contentDetails",
                     playlistId=self.extractIdFromURL(playlistId),
                     maxResults = 50,
@@ -51,7 +46,7 @@ class YoutubePlaylist:
             playlistResponse = playlistRequest.execute()
             videoIds= [item['contentDetails']['videoId'] for item in playlistResponse['items']]
 
-            videoRequest= self.youtube.videos().list(
+            videoRequest= youtube.videos().list(
                 part='contentDetails',
                 id= ','.join(videoIds)
                 )
