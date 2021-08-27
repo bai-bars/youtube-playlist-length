@@ -4,20 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playlist Length</title>
+    <title>Playlist Length -Home</title>
     <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
-    <div class='intro'>
-        <a href='https://github.com/bai-bars'><strong>Baibars</strong></a>
-    </div>
+<!-- START NAVIGATION -->
+    <nav>
+        <div class="nav-brand">
+            <a href="#">YT-playlist</a>
+        </div>
+    </nav>
+    <!-- <div class='intro'>
+        </a>
+    </div> -->
     <div style="clear: both"> </div>
     <div class="container">
-        <h3>Playlist Length</h3>
+        <!-- <h3>Playlist Length</h3> -->
         <form class="main" action='/' method="POST">
-            <input type="text" placeholder="Playlist Link..." name="playlistId" required>
+            <input type="text" placeholder="Paste Youtube Playlist Link or Playlist ID" name="playlistId" required>
             <button type="submit">Length</button>
+            <center><input type="number" id="begin" name="begin" min="1" placeholder="from:">&nbsp;
+            <input type="number" id="end" name="end" min="1" placeholder="to:"></center>
         </form>
+        <span class="tip">
+            *Paste Youtube Playlist Link or Playlist ID.
+        </span>
+        <br><br>
+        <hr>
         <!-- CONTENT START -->
         <div class='content'>
             % if cntx:

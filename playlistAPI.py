@@ -7,6 +7,8 @@ from googleapiclient.discovery import build
 
 class YoutubePlaylist:
     api_key='AIzaSyCG3OOVFTnQKECkjvFjHL7aqDS8SLsp0Fk'
+    pageCount=0
+    vidCount=0
 
     def extractIdFromURL(self,playlistId):
         '''If Client puts whole link of The playlist
@@ -28,7 +30,18 @@ class YoutubePlaylist:
 
 
 
-    def calculatePlaylistLength(self,playlistId):
+    def calculatePlaylistLength(self,playlistId, begin='' ,end=''):
+        ended= False
+        if begin=='':
+            begin=1
+        else:
+            begin=int(begin)
+
+        if end!='':
+            end=int(end)
+            if begin > end:
+                return 'ERROR'
+
         totalLenInSeconds=0
         noOfVideos=0
         nextPageToken=None
@@ -36,6 +49,8 @@ class YoutubePlaylist:
 
         #One Request for playlist can consume 50 videos maximum,So it requires to loop through
         while True:
+            print('---------WHILE START-----------')
+
             #Request to playlist to grab video Ids
             playlistRequest = youtube.playlistItems().list(
                     part="contentDetails",
@@ -62,21 +77,34 @@ class YoutubePlaylist:
                     elif i[-1] == 'S':
                         s= int(int(i[0:-1]))
 
-                vidLenInSeconds = timedelta(hours=int(h),minutes=int(m),seconds=int(s)).total_seconds()
-                noOfVideos=noOfVideos+1
-        
-                totalLenInSeconds+=vidLenInSeconds
+                self.vidCount=self.vidCount+1
+
+                if (self.vidCount >= begin):
+                    vidLenInSeconds = timedelta(hours=int(h),minutes=int(m),seconds=int(s)).total_seconds()
+                    noOfVideos=noOfVideos+1
+
+                    totalLenInSeconds+=vidLenInSeconds
+                    if (end != '' and self.vidCount >= end):
+                        ended=True
+                        break
+                
             
             nextPageToken=playlistResponse.get('nextPageToken')
-
-            if not nextPageToken:
+            print('NEXT PAGE TOKEN-----', nextPageToken)
+            self.pageCount+=1
+            print('-----------WHILE END-----------')
+            if not nextPageToken or ended:
                 break
         
         playbackSpeeds = [1,1.25,1.5,2]
         lenList= [self.lenInPlaybackSpeed(totalLenInSeconds, i) for i in playbackSpeeds]
+        print('PAGE COUNT------------>', self.pageCount)
         return {'lenList':lenList , 'noOfVideos':noOfVideos}
 
 if __name__ == '__main__':
     str= input('Enter the Playlist Url or Playlist Id: ')
+    b =  input('Enter The beginning number:')
+    e =  input('Enter The ending number:')
+
     ytpl= YoutubePlaylist()
-    print(ytpl.calculatePlaylistLength(str))
+    print(ytpl.calculatePlaylistLength(str,b,e))

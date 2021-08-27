@@ -4,17 +4,36 @@
     margin: 0px;
     font-family: monospace ,sans-serif;
     color: rgb(21,35,70);
-}
-
-.intro{
-    float: right;
-    padding-right: 8px;
-    padding-top: 8px;
-    color: #afafaf;
-}
-.intro a{
     text-decoration: none;
 }
+nav{
+    padding: 1%;
+    background-color: rgb(21,35,51);
+}
+
+.nav-brand{
+    padding: 1%;
+    transform: rotate(-10deg);
+    font-size: 2.5em;
+    display: inline-block;
+    background-color: #aa0022;
+    color: gray;
+    border: 2px solid gray;
+    border-radius: 8px;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px black;
+}
+
+li a, .nav-brand a{
+    color: white;
+}
+
+.tip{
+    font-size: .4em;
+    color: gray;
+    font-weight: bold;
+}
+
 .container{
     margin-top: 40px;
     padding-left: 4%;
@@ -43,11 +62,12 @@ form.main{
 
 form.main input[type=text] {
     padding: 10px;
-    font-size: 15px;
-    border: 1px solid grey;
+    font-size: 14px;
+    border: none;
     float: left;
     width: 80%;
     background: #e0e0e0;
+    border-radius: 20px 0 0 20px;
 }
 
     /* Style the submit button */
@@ -55,16 +75,33 @@ form.main button {
     float: left;
     width: 20%;
     padding: 10px;
-    background-color: #4CAF50;
+    /* background-color: #4CAF50; */
+    background-color: rgb(21,35,51);
     color: white;
-    font-size: 15px;
-    border: 1px solid grey;
-    border-left: none; /* Prevent double borders */
+    font-size: 14px;
+    border: none; /* Prevent double borders */
     cursor: pointer;
+    border-radius: 0 20px 20px 0;
 }
 
+input[type='number']{
+    width: 60px;
+    font-size: 14px;
+    border:none;
+    background: #e0e0e0;
+    text-align: center;
+} 
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
 form.main button:hover {
-    background-color: #8FAB67;
+    background-color: rgb(45,40,60);
 }
 
 /* Clear floats */
@@ -72,14 +109,4 @@ form.main::after {
     content: "";
     clear: both;
     display: table;
-}
-
-@media only screen and (max-width: 600px) {
-    .form.main input[type=text]{
-        font-size: 12px;
-    }
-
-    .form.main button{
-        font-size: 12px;
-    }
 }
